@@ -6,8 +6,26 @@ import * as actions from "../actions";
 
 class NewsFeed extends Component {
 
-    componentDidMount(){
-        this.props.getStreams();
+    constructor(){
+        super();
+        this.state = {
+            feeds: []
+        }
+    }
+
+    async componentDidMount(){
+        await this.props.getStreams();
+        this.setState({
+            feeds: this.props.feeds
+        });
+    }
+
+    viewMoreArticles = (index) => {
+        const myFeeds = this.state.feeds;
+        myFeeds[index].showX = 6;
+        this.setState({
+            feeds: myFeeds
+        });
     }
 
     render(){
@@ -15,7 +33,7 @@ class NewsFeed extends Component {
             <div>
                 <hr/>
                 <div className="news-wrapper">
-                    {   this.props.feeds.map((f) => {
+                    {   this.state.feeds.map((f, fi) => {
                         const {title, data} = f;
                         return(
                             <div className="news-wrapper__feed-wrapper">
@@ -23,7 +41,7 @@ class NewsFeed extends Component {
                                 {   (data.articles && data.articles.length > 0) ?
                                     <ul>
                                         {
-                                            data.articles && data.articles.splice(0, 3).map((a, i) => {
+                                            data.articles && data.articles.splice(0, f.showX ? f.showX : 3).map((a, i) => {
                                                 const {author, url, content, urlToImage} = a;
                                                 const articleTitle = a.title;
                                                 return(
@@ -39,13 +57,15 @@ class NewsFeed extends Component {
                                                 )
                                             })
                                         }
-                                        <li className="view-more">
-                                            <div>
-                                                <button>
-                                                    View More Articles
-                                                </button>
-                                            </div>
-                                        </li>
+                                        {   f.showX != 6 &&
+                                            <li className="view-more">
+                                                <div>
+                                                    <button onClick={() => this.viewMoreArticles(fi)}>
+                                                        View More Articles
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        }
                                     </ul>
                                     :
                                     <div>
