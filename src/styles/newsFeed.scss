@@ -21,13 +21,49 @@
             grid-template-columns: 1fr;
             grid-template-rows: 200px 1fr;
             overflow: hidden;
+            background-color: $card-color;
+            margin: 20px 0px 20px 0px;
+            border-radius: 10px;
+            border: 4px solid $background-color;
             .article-img-wrapper{
                 overflow: hidden;
                 width: 100%;
                 height: 200px;
                 img{
-                    
+                    max-width: 50vw;
                 }
+            }
+            .article-body{
+                padding: 20px;
+            }
+            button{
+                width: 200px;
+                height: 50px;
+                background-color: $card-color;
+                border-radius: 25px;
+                font-size: 1.2em;
+                color: $text-color;
+                border: none;
+                margin: auto;
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+            &:hover{
+                cursor: pointer;
+                border: 4px solid $text-color;
+            }
+        }
+        .view-more{
+            background-color: transparent;
+            border-radius: 0px;
+            border: 0px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            &:hover{
+                border: 0px;
+                cursor: default;
             }
         }
     }

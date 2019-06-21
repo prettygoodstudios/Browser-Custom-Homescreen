@@ -1,9 +1,13 @@
+@import "variables";
+
 html, body{
     font-family: Avenir;
     overflow-x: hidden;
     margin: 0;
     padding: 0;
+    background-color: $background-color;
+    color: $text-color;
 }
 
-@import "variables";
+
 @import "newsFeed";
