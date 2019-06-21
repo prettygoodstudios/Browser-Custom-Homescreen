@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: ['babel-polyfill', './src/index.js'],
   output: {
     path: path.resolve(__dirname, '../dist'),
     publicPath: "dist",
@@ -25,6 +25,19 @@ module.exports = {
             use: {
                 loader: "babel-loader"
             }
+        },
+        {
+            test: /\.scss$/,
+            use: [
+                "style-loader", // creates style nodes from JS strings
+                "css-loader", // translates CSS into CommonJS
+                {
+                    loader: "sass-loader",
+                    options: {
+                        implementation: require("sass")
+                    }
+                }
+            ]
         }
       ]
   }
