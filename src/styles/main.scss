@@ -9,5 +9,13 @@ html, body{
     color: $text-color;
 }
 
+hr{
+    margin: 0px;
+    color: $text-color;
+    border-color: $text-color;
+    border-style: solid; 
+}
+
 
 @import "newsFeed";
+@import "weather";
