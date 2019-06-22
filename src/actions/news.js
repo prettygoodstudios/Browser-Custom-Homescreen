@@ -16,7 +16,7 @@ async function getHeadlines(){
 }
 
 async function getWired(){
-    var url = 'https://newsapi.org/v2/top-headlines?sources=Wired&' + 'apiKey=' + API_KEY;
+    var url = 'https://newsapi.org/v2/top-headlines?sources=wired,ars-technica,the-verge,engadget,techcrunch&sortBy=popularity' + '&apiKey=' + API_KEY;
     var req = new Request(url);
     const headlines = await fetch(req).then((response) => {
         return response.json();
@@ -29,7 +29,7 @@ async function getWired(){
 }
 
 async function getPolitics(){
-    var url = 'https://newsapi.org/v2/top-headlines?q=Democrats&from=' + `20${new Date().getYear() - 100}-${new Date().getMonth() + 1 > 9 ? '' : '0'}${new Date().getMonth() + 1}-${new Date().getDate() > 9 ? '' : '0'}${new Date().getDate()}` + 'country=us&' + 'apiKey=' + API_KEY;
+    var url = 'https://newsapi.org/v2/everything?q=utah&from=' + `20${new Date().getYear() - 100}-${new Date().getMonth() + 1 > 9 ? '' : '0'}${new Date().getMonth() + 1}-${new Date().getDate() > 9 ? '' : '0'}${new Date().getDate()}` + 'country=us&' + 'apiKey=' + API_KEY;
     var req = new Request(url);
     const headlines = await fetch(req).then((response) => {
         return response.json();
@@ -58,7 +58,7 @@ export const getStreams = () => {
                     data: wired
                 },
                 {
-                    title: 'Politics',
+                    title: 'Local News',
                     data: politics
                 }
             ]
