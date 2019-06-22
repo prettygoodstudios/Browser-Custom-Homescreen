@@ -16,6 +16,7 @@
         }
 
         li{
+            max-width: 33vw;
             display: grid;
             grid-template-columns: 1fr;
             grid-template-rows: 200px 1fr;
@@ -73,5 +74,11 @@
         grid-template-columns: 1fr 1fr;
         grid-column-gap: 20px;
         grid-template-rows: repeat(auto);
+
+        &__feed-wrapper{
+            li{
+                max-width: 50vw;
+            }
+        }
     }
 }
