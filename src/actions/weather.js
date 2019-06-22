@@ -9,7 +9,7 @@ export const getWeather = () => {
             const {main, weather} = data.list[0];
             const temperature = Math.floor((main.temp - 273.15)*(9/5)+32);
             const weatherDescription = weather[0].description;
-            const weatherIcon = "http://openweathermap.org/img/w/"+weather[0].icon+".png";
+            const weatherIcon = weather[0].icon;
             dispatch({
                 type: GET_WEATHER,
                 payload: {
