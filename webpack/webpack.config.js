@@ -4,7 +4,7 @@ module.exports = {
   entry: ['babel-polyfill', './src/index.js'],
   output: {
     path: path.resolve(__dirname, '../dist'),
-    publicPath: "dist",
+    publicPath: "dist/",
     filename: 'bundle.js'
   },
   mode: "development",
@@ -44,7 +44,9 @@ module.exports = {
             use: [
               {
                 loader: 'file-loader',
-                options: {},
+                options: {
+                    outputPath: "images"
+                },
               },
             ],
           }
