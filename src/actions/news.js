@@ -16,7 +16,7 @@ async function getHeadlines(){
 }
 
 async function getWired(){
-    var url = 'https://newsapi.org/v2/top-headlines?sources=Wired&' + 'country=us&' + 'apiKey=' + API_KEY;
+    var url = 'https://newsapi.org/v2/top-headlines?sources=Wired&' + 'apiKey=' + API_KEY;
     var req = new Request(url);
     const headlines = await fetch(req).then((response) => {
         return response.json();

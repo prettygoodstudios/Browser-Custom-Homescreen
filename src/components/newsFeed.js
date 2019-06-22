@@ -36,12 +36,12 @@ class NewsFeed extends Component {
                     {   this.state.feeds.map((f, fi) => {
                         const {title, data} = f;
                         return(
-                            <div className="news-wrapper__feed-wrapper">
+                            <div className="news-wrapper__feed-wrapper" key={fi}>
                                 <h3>{title}</h3>
                                 {   (data.articles && data.articles.length > 0) ?
                                     <ul>
                                         {
-                                            data.articles && data.articles.splice(0, f.showX ? f.showX : 3).map((a, i) => {
+                                            data.articles && data.articles.slice(0, (f.showX ? f.showX : 3)).map((a, i) => {
                                                 const {author, url, content, urlToImage} = a;
                                                 const articleTitle = a.title;
                                                 return(

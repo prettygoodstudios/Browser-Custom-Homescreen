@@ -6,7 +6,6 @@
     width: calc(100% - 40px);
     margin: auto;
     &__feed-wrapper{
-        max-width: 33vw;
         display: grid;
         grid-template-rows: 50px 1fr;
         grid-template-columns: 1fr;
@@ -66,5 +65,13 @@
                 cursor: default;
             }
         }
+    }
+}
+
+@media only screen and (max-width: 750px){
+    .news-wrapper{
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 20px;
+        grid-template-rows: repeat(auto);
     }
 }
