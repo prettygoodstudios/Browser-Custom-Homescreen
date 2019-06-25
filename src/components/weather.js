@@ -19,6 +19,8 @@ const icons = {
     "02n": n2,
     "03d": i3,
     "03n": i3,
+    "04d": i3,
+    "04n": i3,
     "09d": i9,
     "09n": i9,
     "10d": i10,
@@ -33,11 +35,11 @@ const icons = {
 class Weather extends Component {
 
     componentDidMount(){
-        this.props.getWeather();
+        this.props.getLocation();
     }
 
     render(){
-        const {temperature, weatherIcon, weatherDescription} = this.props;
+        const {temperature, weatherIcon, weatherDescription, city, state} = this.props;
         return(
             <div className="weather-wrapper">
                 <h1 className="weather-wrapper__temperature">{temperature}</h1>
@@ -45,7 +47,7 @@ class Weather extends Component {
                 <div className="weather-wrapper__icon">
                     <img src={icons[weatherIcon]} />
                 </div>
-                <h1 className="weather-wrapper__city">Orem, UT</h1>
+                <h1 className="weather-wrapper__city">{city}, {state.split("").splice(0,2).join("").toUpperCase()}</h1>
             </div>
         );
     }

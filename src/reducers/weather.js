@@ -1,9 +1,11 @@
-import { GET_WEATHER } from "../actions/types";
+import { GET_WEATHER, SET_LOCATION } from "../actions/types";
 
 const INIT_STATE = {
     temperature: 0,
     weatherDescription: "",
-    weatherIcon: ""
+    weatherIcon: "",
+    city: "Orem",
+    state: "UT"
 }
 
 export default function(state = INIT_STATE, action){
@@ -12,6 +14,13 @@ export default function(state = INIT_STATE, action){
             return{
                 ...state,
                 ...action.payload
+            }
+        case SET_LOCATION:
+            const {city} = action.payload;
+            return{
+                ...state,
+                city,
+                state: action.payload.state
             }
         default:
             return{

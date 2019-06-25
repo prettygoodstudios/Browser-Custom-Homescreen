@@ -1,2 +1,2 @@
 export {getStreams} from "./news";
-export {getWeather} from "./weather"
+export {getWeather, getLocation} from "./weather"
