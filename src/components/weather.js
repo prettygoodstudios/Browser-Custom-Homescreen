@@ -40,6 +40,9 @@ class Weather extends Component {
 
     render(){
         const {temperature, weatherIcon, weatherDescription, city, state} = this.props;
+        if(!city || !state || !temperature || !weatherDescription || !weatherIcon){
+            return <div className="weather-wrapper"></div>;
+        }
         return(
             <div className="weather-wrapper">
                 <h1 className="weather-wrapper__temperature">{temperature}</h1>

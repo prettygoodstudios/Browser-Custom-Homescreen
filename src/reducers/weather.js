@@ -4,8 +4,8 @@ const INIT_STATE = {
     temperature: 0,
     weatherDescription: "",
     weatherIcon: "",
-    city: "Orem",
-    state: "UT"
+    city: "",
+    state: ""
 }
 
 export default function(state = INIT_STATE, action){
