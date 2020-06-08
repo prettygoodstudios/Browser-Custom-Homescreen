@@ -38,7 +38,7 @@ class NewsFeed extends Component {
                         return(
                             <div className="news-wrapper__feed-wrapper" key={fi}>
                                 <h3>{title}</h3>
-                                {   (data.articles && data.articles.length > 0) ?
+                                {   (data && data.articles && data.articles.length > 0) ?
                                     <ul>
                                         {
                                             data.articles && data.articles.slice(0, (f.showX ? f.showX : 3)).map((a, i) => {

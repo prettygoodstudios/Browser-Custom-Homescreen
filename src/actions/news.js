@@ -7,7 +7,7 @@ async function getHeadlines(){
     var req = new Request(url);
     const headlines = await fetch(req).then((response) => {
         return response.json();
-    }).then((data) => {
+    }, {mode:'no-cors'}).then((data) => {
         return data;
     }).catch((e) => {
         console.log(e);
@@ -15,12 +15,12 @@ async function getHeadlines(){
     return headlines;
 }
 
-async function getWired(){
+async function getTechNews(){
     var url = 'https://newsapi.org/v2/top-headlines?sources=wired,ars-technica,the-verge,engadget,techcrunch&sortBy=popularity' + '&apiKey=' + API_KEY;
     var req = new Request(url);
     const headlines = await fetch(req).then((response) => {
         return response.json();
-    }).then((data) => {
+    }, {mode:'no-cors'}).then((data) => {
         return data;
     }).catch((e) => {
         console.log(e);
@@ -33,7 +33,7 @@ async function getPolitics(){
     var req = new Request(url);
     const headlines = await fetch(req).then((response) => {
         return response.json();
-    }).then((data) => {
+    }, {mode:'no-cors'}).then((data) => {
         return data;
     }).catch((e) => {
         console.log(e);
@@ -45,7 +45,7 @@ async function getPolitics(){
 export const getStreams = () => {
     return async function(dispatch){
         const headlines = await getHeadlines();
-        const wired = await getWired();
+        const wired = await getTechNews();
         const politics = await getPolitics();
         dispatch({
             type: GET_STREAMS,
