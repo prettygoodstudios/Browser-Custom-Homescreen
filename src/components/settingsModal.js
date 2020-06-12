@@ -9,10 +9,25 @@ import Modal from "./modal";
 class SettingsModal extends Component{
 
     render(){
+        const {icons} = this.props;
         return(
             <div>
                 <Modal title={"Settings"} submitText={"Save"} submit={this.props.toggleSettingsModal} close={this.props.toggleSettingsModal} show={this.props.show}>
-                    <h1>Settings</h1>
+                    <h3>Icons</h3>
+                    <a>Add a icon</a>
+                    <ul className="icon-settings">
+                        {
+                            icons.map(({url, icon}, i) => {
+                                return(
+                                    <li key={i}>
+                                        <img src={icon}/>
+                                        {url}
+                                        <a>Edit</a>
+                                    </li>
+                                )
+                            })
+                        }
+                    </ul>
                 </Modal>
             </div>
         )
@@ -22,7 +37,8 @@ class SettingsModal extends Component{
 
 function mapStateToProps(state){
     return{
-        show: state.settings.settingsModal
+        show: state.settings.settingsModal,
+        icons: state.icons.icons
     }
 }
 
