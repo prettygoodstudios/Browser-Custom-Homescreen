@@ -5,7 +5,7 @@ export default class Modal extends Component{
     constructor(props){
         super(props);
         this.state = {
-
+            
         }
     }
 
@@ -18,7 +18,10 @@ export default class Modal extends Component{
     }
 
     render(){
-        const {children, submitText, title} = this.props;
+        const {children, submitText, title, show} = this.props;
+        if(!show){
+            return <div></div>;
+        }
         return(
             <div className="background-mask">
                 <div className="modal">

@@ -11,7 +11,7 @@ class SettingsModal extends Component{
     render(){
         return(
             <div>
-                <Modal title={"Settings"} submitText={"Save"} submit={() => alert("submit")} close={() => alert("close")}>
+                <Modal title={"Settings"} submitText={"Save"} submit={() => alert("submit")} close={() => alert("close")} show={false}>
                     <h1>Settings</h1>
                 </Modal>
             </div>
