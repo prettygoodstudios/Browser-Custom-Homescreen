@@ -10,7 +10,7 @@ class Footer extends Component {
                 <div className="footer__title">
                     Browser Home Screen - Miguel Rust &copy; 2020 
                 </div>
-                <a className="footer__settings" onClick={() => alert("Settings")}>
+                <a className="footer__settings" onClick={this.props.toggleSettingsModal}>
                     Settings
                 </a>
             </div>

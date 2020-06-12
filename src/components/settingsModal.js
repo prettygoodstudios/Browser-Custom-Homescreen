@@ -11,7 +11,7 @@ class SettingsModal extends Component{
     render(){
         return(
             <div>
-                <Modal title={"Settings"} submitText={"Save"} submit={() => alert("submit")} close={() => alert("close")} show={false}>
+                <Modal title={"Settings"} submitText={"Save"} submit={this.props.toggleSettingsModal} close={this.props.toggleSettingsModal} show={this.props.show}>
                     <h1>Settings</h1>
                 </Modal>
             </div>
@@ -22,7 +22,7 @@ class SettingsModal extends Component{
 
 function mapStateToProps(state){
     return{
-
+        show: state.settings.settingsModal
     }
 }
 
