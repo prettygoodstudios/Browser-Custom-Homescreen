@@ -7,7 +7,7 @@ async function getHeadlines(){
     var req = new Request(url);
     const headlines = await fetch(req).then((response) => {
         return response.json();
-    }, {mode:'no-cors'}).then((data) => {
+    }).then((data) => {
         return data;
     }).catch((e) => {
         console.log(e);
@@ -20,7 +20,7 @@ async function getTechNews(){
     var req = new Request(url);
     const headlines = await fetch(req).then((response) => {
         return response.json();
-    }, {mode:'no-cors'}).then((data) => {
+    }).then((data) => {
         return data;
     }).catch((e) => {
         console.log(e);
@@ -33,7 +33,7 @@ async function getPolitics(){
     var req = new Request(url);
     const headlines = await fetch(req).then((response) => {
         return response.json();
-    }, {mode:'no-cors'}).then((data) => {
+    }).then((data) => {
         return data;
     }).catch((e) => {
         console.log(e);

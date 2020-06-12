@@ -25,9 +25,22 @@
 @media only screen and (max-width: 1000px){
     .header-wrapper{
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
+@media only screen and (max-width: 500px){
+    .header-wrapper{
+        justify-content: space-between;
+
         .link-wrapper{
-            justify-content: flex-start;
+            a{
+                margin: 0px 5px 0px 5px;
+                img{
+                    width: 30px;
+                }
+            }
         }
     }
 }
