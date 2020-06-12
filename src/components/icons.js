@@ -20,9 +20,9 @@ class Icons extends Component {
         return(
             <div className="link-wrapper">
                 {
-                    this.props.icons.map(({url, icon}) => {
+                    this.props.icons.map(({url, icon}, i) => {
                         return (
-                            <a href={url}>
+                            <a href={url} key={i}>
                                 <img src={icon} />
                             </a>
                         )

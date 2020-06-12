@@ -1,0 +1,22 @@
+
+
+.footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    color: $text-color;
+    background-color: $card-color;
+    padding: 0px 20px;
+
+    &__title{
+
+    }
+
+    &__settings{
+        &:hover{
+          cursor: grab;
+        }
+    }
+}

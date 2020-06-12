@@ -8,6 +8,7 @@ import reducers from "../reducers";
 import NewsFeed from "./newsFeed";
 import Weather from "./weather";
 import Icons from "./icons";
+import Footer from "./footer";
 
 
 const store = createStore(reducers, compose(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
@@ -22,6 +23,7 @@ export default class App extends Component {
                         <Icons />
                     </div>
                     <NewsFeed />
+                    <Footer />
                 </div>
             </Provider>
         )
