@@ -11,3 +11,14 @@
         margin: 20px 0px;
     }
 }
+
+.icon-form{
+    &__url{
+        @include std-input;
+    }
+
+    img{
+        height: 50px;
+        display: block;
+    }
+}

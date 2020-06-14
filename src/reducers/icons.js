@@ -1,4 +1,4 @@
-import { GET_ICONS } from "../actions/types";
+import { GET_ICONS, SET_ICONS, ADD_ICONS } from "../actions/types";
 
 //Images temporary for now
 import githubIcon from "../images/github.png";
@@ -33,6 +33,16 @@ export default function(state = INIT_STATE, action){
             return {
                 ...state,
 
+            }
+        case SET_ICONS:
+            return {
+                ...state,
+                icons: [action.payload]
+            }
+        case ADD_ICONS:
+            return{
+                ...state,
+                icons: [...state.icons, action.payload]
             }
         default:
             return state;
