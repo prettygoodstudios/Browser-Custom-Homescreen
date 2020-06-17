@@ -7,7 +7,7 @@ import * as actions from "../actions";
 import Modal from "./modal";
 
 const IconForm = (props) => {
-    const {url, setUrl, show, setImage, image} = props;
+    const {url, setUrl, show, setImage, image, save} = props;
     if(!show){
         return <div></div>
     }
@@ -17,6 +17,7 @@ const IconForm = (props) => {
             <label>Choose a Image</label>
             <img src={image} accept="image/*"/>
             <input type="file" onChange={setImage}></input>
+            <a onClick={save}>Add</a>
         </div>
     );
 }
@@ -49,6 +50,15 @@ class SettingsModal extends Component{
         });
     }
 
+    addIcon = () => {
+        this.props.addIcon(this.state.addIconUrl, this.state.addIconImg);
+        this.setState({
+            addIconUrl: "",
+            addIconImg: null
+        });
+        this.toggleAddIcon();
+    }
+
     setImage = (e) => {
         console.log(e.target);
         const {target} = e;
@@ -66,7 +76,7 @@ class SettingsModal extends Component{
                 <Modal title={"Settings"} submitText={"Save"} submit={this.props.toggleSettingsModal} close={this.props.toggleSettingsModal} show={this.props.show}>
                     <h3>Icons</h3>
                     <a onClick={this.toggleAddIcon}>Add a icon</a>
-                    <IconForm url={addIconUrl} setUrl={this.setAddIconUrl} show={addIcon} setImage={this.setImage} image={addIconImg}/>
+                    <IconForm url={addIconUrl} setUrl={this.setAddIconUrl} show={addIcon} setImage={this.setImage} image={addIconImg} save={this.addIcon}/>
                     <ul className="icon-settings">
                         {
                             icons.map(({url, icon}, i) => {

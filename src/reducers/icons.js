@@ -42,7 +42,7 @@ export default function(state = INIT_STATE, action){
         case ADD_ICONS:
             return{
                 ...state,
-                icons: [...state.icons, action.payload]
+                icons: [...state.icons, ...action.payload]
             }
         default:
             return state;
