@@ -3,7 +3,7 @@ import db from "./connection";
 const createDB = () => {
     return new Promise((resolve, reject) => {
         if(db){
-            const request = db.open("MyTestDatabase", 3);
+            const request = db.open("icons", 3);
             request.onerror = (error) => {
                 reject({error});
             }
@@ -13,5 +13,15 @@ const createDB = () => {
         }else{
             reject({error: "Does not support indexeddb"});
         }
+    });
+}
+
+const insertIcon = (url, icon) => {
+    return new Promise((resolve, reject) => {
+        createDB.then((dataBase) => {
+            dataBase.createObjectStore("icons", []);
+        }).catch((error) => {
+            reject({error});
+        });
     });
 }

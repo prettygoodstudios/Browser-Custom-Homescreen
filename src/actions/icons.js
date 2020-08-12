@@ -1,4 +1,4 @@
-import { GET_ICONS, ADD_ICONS } from "./types";
+import { GET_ICONS, ADD_ICONS, EDIT_ICON, UPDATE_ICON } from "./types";
 
 export function getIcons(){
     return{
@@ -14,8 +14,27 @@ export function addIcon(url, image){
             [
                 {
                     url,
-                    icon: image
+                    icon: image,
+                    editing: false
                 }
             ]
         }
+}
+
+export function editIcon(id){
+    return{
+        type: EDIT_ICON,
+        payload: id
+    }
+}
+
+export function updateIcon(id, url, image){
+    return {
+        type: UPDATE_ICON,
+        payload: {
+            id,
+            url,
+            icon: image
+        }
+    }
 }

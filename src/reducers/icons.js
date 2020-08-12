@@ -1,4 +1,4 @@
-import { GET_ICONS, SET_ICONS, ADD_ICONS } from "../actions/types";
+import { GET_ICONS, SET_ICONS, ADD_ICONS, UPDATE_ICON, EDIT_ICON } from "../actions/types";
 
 //Images temporary for now
 import githubIcon from "../images/github.png";
@@ -10,19 +10,27 @@ const INIT_STATE = {
     icons: [
         {
             url: "https://github.com/prettygoodstudios",
-            icon: githubIcon
+            icon: githubIcon,
+            editing: false,
+            id: 0
         },
         {
             url: "https://music.google.com",
-            icon: playIcon
+            icon: playIcon,
+            editing: false,
+            id: 1
         },
         {
             url: "https://youtube.com",
-            icon: youtubeIcon
+            icon: youtubeIcon,
+            editing: false,
+            id: 2
         },
         {
             url: "https://drive.google.com",
-            icon: driveIcon
+            icon: driveIcon,
+            editing: false,
+            id: 3
         }
     ]
 }
@@ -40,9 +48,33 @@ export default function(state = INIT_STATE, action){
                 icons: [action.payload]
             }
         case ADD_ICONS:
+            action.payload.map((icon, i) => {
+                console.log(icon)
+                return {
+                    ...icon,
+                    id: state.icons.length+i
+                }
+            })
             return{
                 ...state,
                 icons: [...state.icons, ...action.payload]
+            }
+        case UPDATE_ICON:
+            const editIcon = state.icons[action.payload.id];
+            const {url, icon} = action.payload;
+            editIcon = {
+                editing: false,
+                url, 
+                icon
+            }
+            return {
+                ...state
+            }
+        case EDIT_ICON:
+            const iconRef = state.icons[action.payload];
+            iconRef.editing = true;
+            return  {
+                ...state
             }
         default:
             return state;
