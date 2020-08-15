@@ -7,7 +7,7 @@ import * as actions from "../actions";
 import Modal from "./modal";
 
 const IconForm = (props) => {
-    const {url, setUrl, show, setImage, image, save, cancel} = props;
+    const {url, setUrl, show, setImage, image, save, cancel, submitText} = props;
     if(!show){
         return <div></div>
     }
@@ -17,7 +17,7 @@ const IconForm = (props) => {
             <label>Choose a Image</label>
             <img src={image} accept="image/*"/>
             <input type="file" onChange={setImage}></input>
-            <a onClick={save}>Add</a>
+            <a onClick={save}>{submitText}</a>
             <a onClick={cancel}>Cancel</a>
         </div>
     );
@@ -78,12 +78,11 @@ class SettingsModal extends Component{
     }
 
     updateIcon = (id) => {
-        this.props.updateIcon(id, this.state.addIconUrl, this.state.addIconImg);
+        this.props.updateIcon(id, this.state.editIconUrl, this.state.editIconImg);
         this.setState({
             editIconUrl: "",
             editIconImg: null
         });
-        this.toggleAddIcon();
     }
 
     setEditImage = (e) => {
@@ -91,6 +90,22 @@ class SettingsModal extends Component{
         const file = URL.createObjectURL(target.files[0]);
         this.setState({
             editIconImg: file
+        });
+    }
+
+    cancelEdit = () => {
+        this.setState({
+            editIconUrl: "",
+            editIconImg: null
+        });
+        this.props.cancelEditIcon();
+    }
+
+    edit = (i) => {
+        this.props.editIcon(i);
+        this.setState({
+            editIconImg: this.props.icons[i].icon,
+            editIconUrl: this.props.icons[i].url
         });
     }
 
@@ -102,16 +117,20 @@ class SettingsModal extends Component{
                 <Modal title={"Settings"} submitText={"Save"} submit={this.props.toggleSettingsModal} close={this.props.toggleSettingsModal} show={this.props.show}>
                     <h3>Icons</h3>
                     <a onClick={this.toggleAddIcon}>Add a icon</a>
-                    <IconForm url={addIconUrl} setUrl={this.setAddIconUrl} show={addIcon} setImage={this.setImage} image={addIconImg} save={this.addIcon} cancel={this.toggleAddIcon}/>
+                    <IconForm url={addIconUrl} setUrl={this.setAddIconUrl} show={addIcon} setImage={this.setImage} image={addIconImg} save={this.addIcon} cancel={this.toggleAddIcon} submitText="Add"/>
                     <ul className="icon-settings">
                         {
                             icons.map(({url, icon, editing}, i) => {
                                 return(
                                     <li key={i}>
-                                        <img src={icon}/>
-                                        {url}
-                                        <a onClick={() => editIcon(i)}>Edit</a>
-                                        <IconForm url={editIconUrl} setUrl={this.setEditIconUrl} show={icons[i].editing} setImage={this.setEditImage} image={editIconImg} save={() => this.updateIcon(i)}/>
+                                        <div className="icon-settings__view-well">
+                                            <img src={icon}/>
+                                            {url}
+                                            <a onClick={() => this.edit(i)}>Edit</a>
+                                        </div>
+                                        <div className="icon-settings__edit-well">
+                                            <IconForm url={editIconUrl} setUrl={this.setEditIconUrl} show={editing} setImage={this.setEditImage} image={editIconImg} save={() => this.updateIcon(i)} cancel={this.cancelEdit} submitText="Update"/>
+                                        </div>
                                     </li>
                                 )
                             })

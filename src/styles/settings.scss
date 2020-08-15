@@ -1,6 +1,10 @@
 .icon-settings{
     list-style: none;
     li{
+        margin: 20px 0px;
+    }
+
+    &__view-well{
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -8,7 +12,10 @@
         img{
             width: 50px;
         }
-        margin: 20px 0px;
+    }
+
+    &__edit-well{
+        display: block;
     }
 }
 

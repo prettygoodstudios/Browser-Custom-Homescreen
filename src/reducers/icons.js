@@ -1,4 +1,4 @@
-import { GET_ICONS, SET_ICONS, ADD_ICONS, UPDATE_ICON, EDIT_ICON } from "../actions/types";
+import { GET_ICONS, SET_ICONS, ADD_ICONS, UPDATE_ICON, EDIT_ICON, CANCEL_EDIT_ICON } from "../actions/types";
 
 //Images temporary for now
 import githubIcon from "../images/github.png";
@@ -60,21 +60,37 @@ export default function(state = INIT_STATE, action){
                 icons: [...state.icons, ...action.payload]
             }
         case UPDATE_ICON:
-            const editIcon = state.icons[action.payload.id];
+            const tmpIcons = Array.from(state.icons);
             const {url, icon} = action.payload;
-            editIcon = {
+            tmpIcons[action.payload.id] = {
                 editing: false,
                 url, 
                 icon
             }
             return {
-                ...state
+                ...state,
+                icons: tmpIcons
             }
         case EDIT_ICON:
-            const iconRef = state.icons[action.payload];
-            iconRef.editing = true;
+            const iconsRef = Array.from(state.icons);
+            iconsRef[action.payload].editing = true;
+            for(let i = 0; i < iconsRef.length; i++){
+                if(i != action.payload){
+                    iconsRef[i].editing = false;
+                }
+            }
             return  {
-                ...state
+                ...state,
+                icons: iconsRef
+            }
+        case CANCEL_EDIT_ICON:
+            const myIcons = Array.from(state.icons);
+            for(let i = 0; i < myIcons.length; i++){
+                myIcons[i].editing = false;
+            }
+            return {
+                ...state,
+                icons: myIcons
             }
         default:
             return state;
