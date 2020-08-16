@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import * as actions from "../actions";
 
 import Modal from "./modal";
+import { getBase64Image } from "../helpers/image";
 
 const IconForm = (props) => {
     const {url, setUrl, show, setImage, image, save, cancel, submitText} = props;
@@ -71,6 +72,9 @@ class SettingsModal extends Component{
 
     setImage = (e) => {
         const {target} = e;
+        getBase64Image(target.files[0]).then((imageData) => {
+            console.log(imageData);
+        });
         const file = URL.createObjectURL(target.files[0]);
         this.setState({
             addIconImg: file
