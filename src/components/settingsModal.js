@@ -73,11 +73,9 @@ class SettingsModal extends Component{
     setImage = (e) => {
         const {target} = e;
         getBase64Image(target.files[0]).then((imageData) => {
-            console.log(imageData);
-        });
-        const file = URL.createObjectURL(target.files[0]);
-        this.setState({
-            addIconImg: file
+            this.setState({
+                addIconImg: "data:image/png;base64,"+imageData
+            });
         });
     }
 
@@ -91,9 +89,10 @@ class SettingsModal extends Component{
 
     setEditImage = (e) => {
         const {target} = e;
-        const file = URL.createObjectURL(target.files[0]);
-        this.setState({
-            editIconImg: file
+        getBase64Image(target.files[0]).then((imageData) => {
+            this.setState({
+                editIconImg: "data:image/png;base64,"+imageData
+            });
         });
     }
 
