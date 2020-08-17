@@ -1,19 +1,14 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 
+
+import {getItemsFromDB} from "../helpers/db"; 
 import * as actions from "../actions";
 
 class Icons extends Component {
 
-    constructor(props){
-        super(props);
-        this.state = {
-            icons: []
-        }
-    }
-
     componentDidMount(){
-        this.props.getIcons();
+        this.props.setIcons(getItemsFromDB());
     }
 
     render(){

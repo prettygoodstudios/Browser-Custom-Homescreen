@@ -1,51 +1,20 @@
 import { GET_ICONS, SET_ICONS, ADD_ICONS, UPDATE_ICON, EDIT_ICON, CANCEL_EDIT_ICON } from "../actions/types";
-
-//Images temporary for now
-import githubIcon from "../images/github.png";
-import playIcon from "../images/music.png";
-import youtubeIcon from "../images/youtube.png";
-import driveIcon from "../images/drive.png";
+import {updateIconDB} from "../helpers/db";
 
 const INIT_STATE = {
-    icons: [
-        {
-            url: "https://github.com/prettygoodstudios",
-            icon: githubIcon,
-            editing: false,
-            id: 0
-        },
-        {
-            url: "https://music.google.com",
-            icon: playIcon,
-            editing: false,
-            id: 1
-        },
-        {
-            url: "https://youtube.com",
-            icon: youtubeIcon,
-            editing: false,
-            id: 2
-        },
-        {
-            url: "https://drive.google.com",
-            icon: driveIcon,
-            editing: false,
-            id: 3
-        }
-    ]
+    icons: []
 }
 
 export default function(state = INIT_STATE, action){
     switch(action.type){
         case GET_ICONS:
             return {
-                ...state,
-
+                ...state
             }
         case SET_ICONS:
             return {
                 ...state,
-                icons: [action.payload]
+                icons: [...action.payload]
             }
         case ADD_ICONS:
             action.payload.map((icon, i) => {
@@ -55,6 +24,7 @@ export default function(state = INIT_STATE, action){
                     id: state.icons.length+i
                 }
             })
+            updateIconDB([...state.icons, ...action.payload]); 
             return{
                 ...state,
                 icons: [...state.icons, ...action.payload]
@@ -67,6 +37,7 @@ export default function(state = INIT_STATE, action){
                 url, 
                 icon
             }
+            updateIconDB(tmpIcons);
             return {
                 ...state,
                 icons: tmpIcons

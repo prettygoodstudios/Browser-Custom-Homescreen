@@ -1,9 +1,16 @@
-import { GET_ICONS, ADD_ICONS, EDIT_ICON, UPDATE_ICON, CANCEL_EDIT_ICON } from "./types";
+import { GET_ICONS, ADD_ICONS, EDIT_ICON, UPDATE_ICON, CANCEL_EDIT_ICON, SET_ICONS } from "./types";
 
 export function getIcons(){
     return{
         type: GET_ICONS,
         payload: {}
+    }
+}
+
+export function setIcons(icons){
+    return {
+        type: SET_ICONS,
+        payload: icons
     }
 }
 
