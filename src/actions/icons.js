@@ -1,4 +1,4 @@
-import { GET_ICONS, ADD_ICONS, EDIT_ICON, UPDATE_ICON, CANCEL_EDIT_ICON, SET_ICONS } from "./types";
+import { GET_ICONS, ADD_ICONS, EDIT_ICON, UPDATE_ICON, CANCEL_EDIT_ICON, SET_ICONS, DELETE_ICON } from "./types";
 
 export function getIcons(){
     return{
@@ -50,5 +50,12 @@ export function updateIcon(id, url, image){
             url,
             icon: image
         }
+    }
+}
+
+export function deleteIcon(id){
+    return {
+        type: DELETE_ICON,
+        payload: id
     }
 }

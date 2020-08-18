@@ -1,4 +1,4 @@
-import { GET_ICONS, SET_ICONS, ADD_ICONS, UPDATE_ICON, EDIT_ICON, CANCEL_EDIT_ICON } from "../actions/types";
+import { GET_ICONS, SET_ICONS, ADD_ICONS, UPDATE_ICON, EDIT_ICON, CANCEL_EDIT_ICON, DELETE_ICON } from "../actions/types";
 import {updateIconDB} from "../helpers/db";
 
 const INIT_STATE = {
@@ -31,8 +31,8 @@ export default function(state = INIT_STATE, action){
             }
         case UPDATE_ICON:
             const tmpIcons = Array.from(state.icons);
-            const {url, icon} = action.payload;
-            tmpIcons[action.payload.id] = {
+            const {url, icon, id} = action.payload;
+            tmpIcons[id] = {
                 editing: false,
                 url, 
                 icon
@@ -41,6 +41,13 @@ export default function(state = INIT_STATE, action){
             return {
                 ...state,
                 icons: tmpIcons
+            }
+        case DELETE_ICON:
+            const deleteIcons = state.icons.filter((v, i) => i != action.payload)
+            updateIconDB(deleteIcons);
+            return {
+                ...state,
+                icons: deleteIcons
             }
         case EDIT_ICON:
             const iconsRef = Array.from(state.icons);

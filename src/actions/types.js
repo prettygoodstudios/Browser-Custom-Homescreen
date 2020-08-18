@@ -8,3 +8,4 @@ export const ADD_ICONS = 'ADD_ICONS';
 export const EDIT_ICON = 'EDIT_ICON';
 export const UPDATE_ICON = 'UPDATE_ICON';
 export const CANCEL_EDIT_ICON = 'CANCEL_EDIT_ICON';
+export const DELETE_ICON = 'DELETE_ICON';

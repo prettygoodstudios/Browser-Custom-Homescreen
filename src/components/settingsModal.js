@@ -130,6 +130,7 @@ class SettingsModal extends Component{
                                             <img src={icon}/>
                                             {url}
                                             <a onClick={() => this.edit(i)}>Edit</a>
+                                            <a onClick={() => this.props.deleteIcon(i)}>Delete</a>
                                         </div>
                                         <div className="icon-settings__edit-well">
                                             <IconForm url={editIconUrl} setUrl={this.setEditIconUrl} show={editing} setImage={this.setEditImage} image={editIconImg} save={() => this.updateIcon(i)} cancel={this.cancelEdit} submitText="Update"/>
