@@ -25,14 +25,11 @@ async function getTechNews(){
 }
 
 async function getPolitics(){
-    var url = 'https://newsapi.org/v2/everything?q=utah&from=' + `20${new Date().getYear() - 100}-${new Date().getMonth() + 1 > 9 ? '' : '0'}${new Date().getMonth() + 1}-${new Date().getDate() > 9 ? '' : '0'}${new Date().getDate()}` + 'country=us&' + 'apiKey=' + API_KEY;
-    var req = new Request(url);
-    const headlines = await fetch(req).then((response) => {
-        return response.json();
-    }).then((data) => {
-        return data;
-    }).catch((e) => {
-        console.log(e);
+    const date = `20${new Date().getYear() - 100}-${new Date().getMonth() + 1 > 9 ? '' : '0'}${new Date().getMonth() + 1}-${new Date().getDate() > 9 ? '' : '0'}${new Date().getDate()}`;
+    const headlines = await newsProvider.getFeed("everything", {query: "utah", date}).then((feed) => {
+        return feed;
+    }).catch((error) => {
+        console.log(error);
     });
     return headlines;
 }

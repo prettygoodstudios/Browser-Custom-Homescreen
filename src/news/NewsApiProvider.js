@@ -10,6 +10,12 @@ export default class NewsApiProvider extends NewsProvider {
     getFeed(feed, {date, sortBy, query, country, sources} = {}){
         return new Promise((resolve, reject) => {
             const params = [];
+            if(query){
+                params.push({
+                    label: "q",
+                    value: query
+                });
+            }
             if(date){
                 params.push({
                     label: "from",
@@ -20,12 +26,6 @@ export default class NewsApiProvider extends NewsProvider {
                 params.push({
                     label: "sortBy",
                     value: sortBy
-                });
-            }
-            if(query){
-                params.push({
-                    label: "q",
-                    value: query
                 });
             }
             if(country){
