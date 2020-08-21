@@ -22,7 +22,7 @@ export default class NewsProvider {
         return query;
     }
 
-    getFeed(feed, {date , sortBy , query , country , sources} = {}){
+    getFeed(feed, {date, sortBy, query, country, sources} = {}){
         throw new Error(NOT_IMPLEMENTED_ERROR);
     }
 
