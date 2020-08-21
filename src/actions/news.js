@@ -1,29 +1,25 @@
 import {GET_STREAMS} from "./types";
 import { API_KEY } from "../../config";
 
+import NewsApiProvider from "../news/NewsApiProvider";
+
+//A NewsProvider Object
+const newsProvider = new NewsApiProvider();
 
 async function getHeadlines(){
-    var url = 'https://newsapi.org/v2/top-headlines?' + 'country=us&' + 'apiKey=' + API_KEY;
-    var req = new Request(url);
-    const headlines = await fetch(req).then((response) => {
-        return response.json();
-    }).then((data) => {
-        return data;
-    }).catch((e) => {
-        console.log(e);
+    const headlines = await newsProvider.getFeed("top-headlines", {country: "us"}).then((feed) => {
+        return feed;
+    }).catch((error) => {
+        console.log(error);
     });
     return headlines;
 }
 
 async function getTechNews(){
-    var url = 'https://newsapi.org/v2/top-headlines?sources=wired,ars-technica,the-verge,engadget,techcrunch&sortBy=popularity' + '&apiKey=' + API_KEY;
-    var req = new Request(url);
-    const headlines = await fetch(req).then((response) => {
-        return response.json();
-    }).then((data) => {
-        return data;
-    }).catch((e) => {
-        console.log(e);
+    const headlines = await newsProvider.getFeed("top-headlines", {sortBy: "popularity", sources: "wired,ars-technica,the-verge,engadget,techcrunch"}).then((feed) => {
+        return feed;
+    }).catch((error) => {
+        console.log(error);
     });
     return headlines;
 }
