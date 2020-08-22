@@ -38,7 +38,7 @@ class SettingsModal extends Component{
     }
 
     componentDidMount(){
-        
+        this.props.getSources();
     }
 
     toggleAddIcon = () => {

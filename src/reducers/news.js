@@ -1,7 +1,8 @@
-import { GET_STREAMS } from "../actions/types";
+import { GET_STREAMS, GET_SOURCES } from "../actions/types";
 
 const INIT_STATE = {
-    streams: []
+    streams: [],
+    sources: []
 }
 
 export default function(state = INIT_STATE, action){
@@ -10,6 +11,11 @@ export default function(state = INIT_STATE, action){
             return{
                 ...state,
                 streams: action.payload
+            }
+        case GET_SOURCES:
+            return{
+                ...state,
+                sources: action.payload.sources
             }
         default:
             return{

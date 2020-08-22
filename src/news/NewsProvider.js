@@ -26,7 +26,7 @@ export default class NewsProvider {
         throw new Error(NOT_IMPLEMENTED_ERROR);
     }
 
-    getFeeds(){
+    getSources(){
         throw new Error(NOT_IMPLEMENTED_ERROR);
     }
 

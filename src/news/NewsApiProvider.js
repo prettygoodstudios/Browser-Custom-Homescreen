@@ -57,4 +57,18 @@ export default class NewsApiProvider extends NewsProvider {
         });
     }
 
+    getSources(){
+        return new Promise((resolve, reject) => {
+            const url = this.baseUrl + "sources?apiKey=" + this.apiKey; 
+            const req = new Request(url);
+            fetch(req).then(response => {
+                return response.json();
+            }).then(data => {   
+                resolve(data);
+            }).catch(error => {
+                reject(error)
+            });
+        });
+    }
+
 }

@@ -1,4 +1,4 @@
-import {GET_STREAMS} from "./types";
+import {GET_STREAMS, GET_SOURCES} from "./types";
 import { API_KEY } from "../../config";
 
 import NewsApiProvider from "../news/NewsApiProvider";
@@ -56,5 +56,18 @@ export const getStreams = () => {
                 }
             ]
         })
+    }
+}
+
+export const getSources = () => {
+    return async function(dispatch){
+        newsProvider.getSources().then(sources => {
+            dispatch({
+                type: GET_SOURCES,
+                payload: sources
+            });
+        }).catch(error => {
+            console.log(error);
+        });
     }
 }
