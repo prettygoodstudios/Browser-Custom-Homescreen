@@ -24,6 +24,65 @@ const IconForm = (props) => {
     );
 }
 
+const FeedForm = (props) => {
+    const {sources, selectedSources, save, cancel, submitText, query, country, sortBy, date, feedName, setFeedName, setQueryName, setCountry} = props;
+
+    const formSources = {};
+
+    sources.forEach(source => {
+        formSources[source.id] = source;
+        formSources[source.id].selected = false;
+    });
+
+    selectedSources.forEach(source => {
+        formSources[source.id].selected = true;
+    });
+
+    return(
+        <div className="feed-form">
+            <input placeholder="Name" className="feed-form__input" value={feedName} onChange={e => setFeedName(e)}></input>
+            {query ?
+                 <input placeholder="Query" className="feed-form__input" value={query} onChange={e => setQueryName(e)}></input>
+                 :
+                 <div>
+                     <input type="checkbox" className="feed-form__checkbox" id="feedFormQueryCheckbox" onChange={e => setQueryName(true, true)}/>
+                     <label for="feedFormQueryCheckbox">Filter articles by query string</label>
+                 </div> 
+            }
+            {country ?
+                <input placeholder="Country" className="feed-form__input" value={country} onChange={e => setCountry(e)}/>
+                :
+                <div>
+                    <input type="checkbox" className="feed-form__checkbox" id="feedFormCountryCheckbox" onChange={e => setCountry(true, true)}/>
+                    <label for="feedFormCountryCheckbox">Filter articles by query string</label>
+                </div>
+            }
+            <h3>Feeds</h3>
+            <div className="feed-form__source-checkboxes">
+                {   Object.values(formSources).map((source, i) => {
+                        const {name, id, description, country, category} = source;
+                        return (
+                            <div key={i} className="feed-form__source-checkboxes__group">
+                                <input type="checkbox" value={id}></input>
+                                <label>{name}</label>
+                                <div className="feed-form__source-checkboxes__group__info">
+                                    {description}
+                                    <span className="group-info-label">Country: {country}</span>
+                                    <span className="group-info-label">Category: {category}</span>
+                                </div>
+                            </div>
+                        )
+                    })
+                }
+            </div>
+            <div className="feed-form__action-btns">
+                <button className="feed-form__action-btns__cancel" onClick={cancel}>Cancel</button>
+                <button className="feed-form__action-btns__submit" onClick={save}>{submitText}</button>
+            </div>
+        </div>
+    );
+}
+
 class SettingsModal extends Component{
 
     constructor(props){
@@ -113,7 +172,7 @@ class SettingsModal extends Component{
     }
 
     render(){
-        const {icons, editIcon} = this.props;
+        const {icons, sources} = this.props;
         const {addIcon, addIconUrl, addIconImg, editIconUrl, editIconImg} = this.state;
         return(
             <div>
@@ -121,6 +180,7 @@ class SettingsModal extends Component{
                     <h3>Icons</h3>
                     <a onClick={this.toggleAddIcon}>Add a icon</a>
                     <IconForm url={addIconUrl} setUrl={this.setAddIconUrl} show={addIcon} setImage={this.setImage} image={addIconImg} save={this.addIcon} cancel={this.toggleAddIcon} submitText="Add"/>
+                    <FeedForm sources={sources} selectedSources={[]} name={""}/>
                     <ul className="icon-settings">
                         {
                             icons.map(({url, icon, editing}, i) => {
@@ -150,7 +210,8 @@ class SettingsModal extends Component{
 function mapStateToProps(state){
     return{
         show: state.settings.settingsModal,
-        icons: state.icons.icons
+        icons: state.icons.icons,
+        sources: state.news.sources
     }
 }
 

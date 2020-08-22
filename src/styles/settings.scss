@@ -29,3 +29,10 @@
         display: block;
     }
 }
+
+.feed-form{
+    &__source-checkboxes{
+        max-height: 200px;
+        overflow-y: scroll;
+    }
+}

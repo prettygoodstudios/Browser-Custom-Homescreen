@@ -66,7 +66,7 @@ export default class NewsApiProvider extends NewsProvider {
             }).then(data => {   
                 resolve(data);
             }).catch(error => {
-                reject(error)
+                reject(error);
             });
         });
     }
