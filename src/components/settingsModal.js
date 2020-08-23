@@ -25,7 +25,7 @@ const IconForm = (props) => {
 }
 
 const FeedForm = (props) => {
-    const {sources, selectedSources, save, cancel, submitText, query, country, sortBy, date, feedName, setFeedName, setQueryName, setCountry} = props;
+    const {sources, selectedSources, save, cancel, submitText, query, country, sortBy, date, feedName, updateField} = props;
 
     const formSources = {};
 
@@ -40,25 +40,28 @@ const FeedForm = (props) => {
 
     return(
         <div className="feed-form">
-            <input placeholder="Name" className="feed-form__input" value={feedName} onChange={e => setFeedName(e)}></input>
-            {query ?
-                 <input placeholder="Query" className="feed-form__input" value={query} onChange={e => setQueryName(e)}></input>
-                 :
-                 <div>
-                     <input type="checkbox" className="feed-form__checkbox" id="feedFormQueryCheckbox" onChange={e => setQueryName(true, true)}/>
-                     <label for="feedFormQueryCheckbox">Filter articles by query string</label>
-                 </div> 
+            <input placeholder="Name" className="feed-form__input" value={feedName} onChange={e => updateField("feedName", e)}></input>
+            <input type="checkbox" className="feed-form__checkbox" id="feedFormQueryCheckbox" onChange={e => updateField("query", true, e)}/>
+            <label htmlFor="feedFormQueryCheckbox">Filter articles by query string</label>
+            {query !== false &&
+                 <input placeholder="Query" className="feed-form__input" value={query} onChange={e => updateField("query", e)}></input>
             }
-            {country ?
-                <input placeholder="Country" className="feed-form__input" value={country} onChange={e => setCountry(e)}/>
-                :
-                <div>
-                    <input type="checkbox" className="feed-form__checkbox" id="feedFormCountryCheckbox" onChange={e => setCountry(true, true)}/>
-                    <label for="feedFormCountryCheckbox">Filter articles by query string</label>
-                </div>
+            <br />
+            <input type="checkbox" className="feed-form__checkbox" id="feedFormCountryCheckbox" onChange={e => updateField("country", true, e)}/>
+            <label htmlFor="feedFormCountryCheckbox">Filter articles by country</label>
+            {country !== false &&
+                <input placeholder="Country" className="feed-form__input" value={country} onChange={e => updateField("country", e)}/>
             }
             <h3>Feeds</h3>
             <div className="feed-form__source-checkboxes">
+                <div key="-1" className="feed-form__source-checkboxes__group">
+                    <input type="checkbox" value="everything"></input>
+                    <label>Everything</label>
+                </div>
+                <div key="-2" className="feed-form__source-checkboxes__group">
+                    <input type="checkbox" value="topheadlines"></input>
+                    <label>Top Headlines</label>
+                </div>
                 {   Object.values(formSources).map((source, i) => {
                         const {name, id, description, country, category} = source;
                         return (
@@ -92,7 +95,13 @@ class SettingsModal extends Component{
             addIconUrl: "",
             addIconImg: null,
             editIconImg: null,
-            editIconUrl: ""
+            editIconUrl: "",
+            newFeedForm: {
+                feedName: "",
+                country: false,
+                query: false,
+                selectedSources: []
+            }
         }
     }
 
@@ -171,16 +180,28 @@ class SettingsModal extends Component{
         });
     }
 
+    updateNewFeedForm = (field, event, toggle = false) => {
+        if(!toggle){
+            const {value} = event.target;
+            this.state.newFeedForm[field] = value;
+        }else{
+            this.state.newFeedForm[field] = toggle.target.checked ? "" : false;
+        }
+        this.setState({
+            newFeedForm: this.state.newFeedForm
+        });
+    }
+
     render(){
         const {icons, sources} = this.props;
-        const {addIcon, addIconUrl, addIconImg, editIconUrl, editIconImg} = this.state;
+        const {addIcon, addIconUrl, addIconImg, editIconUrl, editIconImg, newFeedForm} = this.state;
         return(
             <div>
                 <Modal title={"Settings"} submitText={"Save"} submit={this.props.toggleSettingsModal} close={this.props.toggleSettingsModal} show={this.props.show}>
                     <h3>Icons</h3>
                     <a onClick={this.toggleAddIcon}>Add a icon</a>
                     <IconForm url={addIconUrl} setUrl={this.setAddIconUrl} show={addIcon} setImage={this.setImage} image={addIconImg} save={this.addIcon} cancel={this.toggleAddIcon} submitText="Add"/>
-                    <FeedForm sources={sources} selectedSources={[]} name={""} submitText="Add"/>
+                    <FeedForm sources={sources} selectedSources={[]} submitText="Add" feedName={newFeedForm.feedName} country={newFeedForm.country} query={newFeedForm.query} updateField={this.updateNewFeedForm}/>
                     <ul className="icon-settings">
                         {
                             icons.map(({url, icon, editing}, i) => {
