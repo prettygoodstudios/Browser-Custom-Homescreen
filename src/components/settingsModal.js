@@ -126,6 +126,7 @@ class SettingsModal extends Component{
 
     componentDidMount(){
         this.props.getSources();
+        this.props.getFeeds();
     }
 
     toggleAddIcon = () => {
@@ -236,8 +237,21 @@ class SettingsModal extends Component{
         })
     }
 
+    saveNewFeed = () => {
+        const {newFeedForm} = this.state;
+        const {feedName, selectedSources, country, query} = newFeedForm;
+        const feed  = {
+            name: feedName,
+            sources: selectedSources,
+            country,
+            query
+        }
+        this.props.addFeed(feed);
+        this.toggleNewFeed();
+    }
+
     render(){
-        const {icons, sources} = this.props;
+        const {icons, sources, feeds} = this.props;
         const {addIcon, addIconUrl, addIconImg, editIconUrl, editIconImg, newFeedForm} = this.state;
         return(
             <div>
@@ -266,7 +280,20 @@ class SettingsModal extends Component{
                     </ul>
                     <h3>Feeds</h3>
                     <a onClick={this.toggleNewFeed}>Add a Feed</a>
-                    <FeedForm show={newFeedForm.show} sources={sources} feedSearch={newFeedForm.feedSearch} cancel={this.toggleNewFeed} selectedSources={newFeedForm.selectedSources} submitText="Add" feedName={newFeedForm.feedName} country={newFeedForm.country} query={newFeedForm.query} updateField={this.updateNewFeedForm} toggleFeed={this.newFeedFormToggleFeed}/>
+                    <div className="feed-settings">
+                        {   feeds.map((feed, i) => {
+                                const {name} = feed;
+                                return(
+                                    <div className="feed-settings__item" key={i}>
+                                        <div className="feed-settings__item__title">
+                                            {name}
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                    <FeedForm show={newFeedForm.show} save={this.saveNewFeed} sources={sources} feedSearch={newFeedForm.feedSearch} cancel={this.toggleNewFeed} selectedSources={newFeedForm.selectedSources} submitText="Add" feedName={newFeedForm.feedName} country={newFeedForm.country} query={newFeedForm.query} updateField={this.updateNewFeedForm} toggleFeed={this.newFeedFormToggleFeed}/>
                 </Modal>
             </div>
         )
@@ -278,7 +305,8 @@ function mapStateToProps(state){
     return{
         show: state.settings.settingsModal,
         icons: state.icons.icons,
-        sources: state.news.sources
+        sources: state.news.sources,
+        feeds: state.news.feeds
     }
 }
 

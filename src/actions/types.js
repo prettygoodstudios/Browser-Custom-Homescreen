@@ -10,3 +10,7 @@ export const UPDATE_ICON = 'UPDATE_ICON';
 export const CANCEL_EDIT_ICON = 'CANCEL_EDIT_ICON';
 export const DELETE_ICON = 'DELETE_ICON';
 export const GET_SOURCES = 'GET_SOURCES';
+export const GET_FEEDS = 'GET_FEEDS';
+export const ADD_FEED = 'ADD_FEED';
+export const DELETE_FEED = 'DELETE_FEED';
+export const EDIT_FEED = 'EDIT_FEED';

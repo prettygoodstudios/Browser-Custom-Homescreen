@@ -6,6 +6,9 @@ import driveIcon from "../images/drive.png";
 
 
 const ICON_DB_NAME = "BROWSER_HOME_SCREEN_ICONS";
+const FEED_DB_NAME = "BROWSER_HOME_SCREEN_FEEDS";
+
+const INITIAL_FEED_DB_STATE = [];
 
 const INITIAL_ICON_DB_STATE = [
     {
@@ -38,6 +41,9 @@ export const initializeDB = () => {
     if(!localStorage.getItem(ICON_DB_NAME)){
         localStorage.setItem(ICON_DB_NAME, JSON.stringify(INITIAL_ICON_DB_STATE));
     }
+    if(!localStorage.getItem(FEED_DB_NAME)){
+        localStorage.setItem(FEED_DB_NAME, JSON.stringify(INITIAL_FEED_DB_STATE));
+    }
 }
 
 export const getItemsFromDB = () => {
@@ -52,3 +58,16 @@ export const getItemsFromDB = () => {
 export const updateIconDB = (icons) => {
     localStorage.setItem(ICON_DB_NAME, JSON.stringify(icons));
 } 
+
+export const getFeedsFromDB = () => {
+    initializeDB();
+    const feeds = JSON.parse(localStorage.getItem(FEED_DB_NAME));
+    if(!feeds){
+        return [];
+    }
+    return feeds;
+}
+
+export const updateFeedDB = (feeds) => {
+    localStorage.setItem(FEED_DB_NAME, JSON.stringify(feeds));
+}

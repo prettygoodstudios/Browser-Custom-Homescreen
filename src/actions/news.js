@@ -1,7 +1,8 @@
-import {GET_STREAMS, GET_SOURCES} from "./types";
+import {GET_STREAMS, GET_SOURCES, GET_FEEDS, ADD_FEED, DELETE_FEED, EDIT_FEED} from "./types";
 import { API_KEY } from "../../config";
 
 import NewsApiProvider from "../news/NewsApiProvider";
+import { getFeedsFromDB } from "../helpers/db";
 
 //A NewsProvider Object
 const newsProvider = new NewsApiProvider();
@@ -69,5 +70,36 @@ export const getSources = () => {
         }).catch(error => {
             console.log(error);
         });
+    }
+}
+
+export const getFeeds = () => {
+    return{
+        type: GET_FEEDS,
+        payload: getFeedsFromDB()
+    }
+}
+
+export const addFeed = (feed) => {
+    return{
+        type: ADD_FEED,
+        payload: feed
+    }
+}
+
+export const deleteFeed = (id) => {
+    return{
+        type: DELETE_FEED,
+        payload: id
+    }
+}
+
+export const editFeed = (id, feed) => {
+    return{
+        type: EDIT_FEED,
+        payload: {
+            id,
+            feed
+        }
     }
 }
