@@ -25,7 +25,11 @@ const IconForm = (props) => {
 }
 
 const FeedForm = (props) => {
-    const {sources, selectedSources, save, cancel, submitText, query, country, sortBy, date, feedName, updateField} = props;
+    const {sources, selectedSources, save, cancel, submitText, query, country, sortBy, date, feedName, updateField, toggleFeed, show, feedSearch} = props;
+
+    if(!show){
+        return <div></div>;
+    }
 
     const formSources = {};
 
@@ -36,6 +40,14 @@ const FeedForm = (props) => {
 
     selectedSources.forEach(source => {
         formSources[source.id].selected = true;
+    });
+
+    const filteredFormSources = Object.values(formSources).filter((source) => {
+        if(feedSearch === ""){
+            return true;
+        }
+        const {description, id, name} = source;
+        return description.indexOf(feedSearch) != -1 || id.indexOf(feedSearch) != -1 || name.indexOf(feedSearch) != -1;
     });
 
     return(
@@ -53,20 +65,25 @@ const FeedForm = (props) => {
                 <input placeholder="Country" className="feed-form__input" value={country} onChange={e => updateField("country", e)}/>
             }
             <h3>Feeds</h3>
+            <input placeholder="Search for Feed" className="feed-form__input" value={feedSearch} onChange={e => updateField("feedSearch", e)}/>
             <div className="feed-form__source-checkboxes">
-                <div key="-1" className="feed-form__source-checkboxes__group">
-                    <input type="checkbox" value="everything"></input>
-                    <label>Everything</label>
-                </div>
-                <div key="-2" className="feed-form__source-checkboxes__group">
-                    <input type="checkbox" value="topheadlines"></input>
-                    <label>Top Headlines</label>
-                </div>
-                {   Object.values(formSources).map((source, i) => {
+                {   "everything".indexOf(feedSearch) != -1 &&
+                    <div key="-1" className="feed-form__source-checkboxes__group">
+                        <input type="checkbox" value="everything"></input>
+                        <label>Everything</label>
+                    </div>
+                }
+                {   "top headlines".indexOf(feedSearch) != -1 &&
+                    <div key="-2" className="feed-form__source-checkboxes__group">
+                        <input type="checkbox" value="topheadlines"></input>
+                        <label>Top Headlines</label>
+                    </div>
+                }       
+                {   filteredFormSources.map((source, i) => {
                         const {name, id, description, country, category} = source;
                         return (
                             <div key={i} className="feed-form__source-checkboxes__group">
-                                <input type="checkbox" value={id}></input>
+                                <input type="checkbox" value={id} onChange={(e) => toggleFeed(e, source)}></input>
                                 <label>{name}</label>
                                 <div className="feed-form__source-checkboxes__group__info">
                                     {description}
@@ -100,7 +117,9 @@ class SettingsModal extends Component{
                 feedName: "",
                 country: false,
                 query: false,
-                selectedSources: []
+                selectedSources: [],
+                show: false,
+                feedSearch: ""
             }
         }
     }
@@ -192,6 +211,31 @@ class SettingsModal extends Component{
         });
     }
 
+    newFeedFormToggleFeed = (e, feed) => {
+        const {selectedSources} = this.state.newFeedForm;
+        if(e.target.checked){
+            selectedSources.push(feed);
+        }else{
+            const feedIndex = selectedSources.indexOf(feed);
+            selectedSources.splice(feedIndex, 1);
+        }
+        this.setState({
+            newFeedForm: {
+                ...this.state.newFeedForm,
+                selectedSources: selectedSources
+            }
+        });
+    }
+
+    toggleNewFeed = () => {
+        this.setState({
+            newFeedForm: {
+                ...this.state.newFeedForm,
+                show: !this.state.newFeedForm.show
+            }
+        })
+    }
+
     render(){
         const {icons, sources} = this.props;
         const {addIcon, addIconUrl, addIconImg, editIconUrl, editIconImg, newFeedForm} = this.state;
@@ -201,7 +245,6 @@ class SettingsModal extends Component{
                     <h3>Icons</h3>
                     <a onClick={this.toggleAddIcon}>Add a icon</a>
                     <IconForm url={addIconUrl} setUrl={this.setAddIconUrl} show={addIcon} setImage={this.setImage} image={addIconImg} save={this.addIcon} cancel={this.toggleAddIcon} submitText="Add"/>
-                    <FeedForm sources={sources} selectedSources={[]} submitText="Add" feedName={newFeedForm.feedName} country={newFeedForm.country} query={newFeedForm.query} updateField={this.updateNewFeedForm}/>
                     <ul className="icon-settings">
                         {
                             icons.map(({url, icon, editing}, i) => {
@@ -221,6 +264,9 @@ class SettingsModal extends Component{
                             })
                         }
                     </ul>
+                    <h3>Feeds</h3>
+                    <a onClick={this.toggleNewFeed}>Add a Feed</a>
+                    <FeedForm show={newFeedForm.show} sources={sources} feedSearch={newFeedForm.feedSearch} cancel={this.toggleNewFeed} selectedSources={newFeedForm.selectedSources} submitText="Add" feedName={newFeedForm.feedName} country={newFeedForm.country} query={newFeedForm.query} updateField={this.updateNewFeedForm} toggleFeed={this.newFeedFormToggleFeed}/>
                 </Modal>
             </div>
         )

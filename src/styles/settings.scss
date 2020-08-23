@@ -42,7 +42,7 @@
 
     &__source-checkboxes{
         max-height: 200px;
-        overflow-y: scroll;
+        overflow-y: auto;
         margin: 10px 0px;
 
         &__group{
