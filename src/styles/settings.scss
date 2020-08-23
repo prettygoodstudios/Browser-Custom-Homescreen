@@ -31,8 +31,36 @@
 }
 
 .feed-form{
+
+    input {
+        @include std-input;
+    }
+
+    input[type=checkbox]{
+        display: inline-block;
+    }
+
     &__source-checkboxes{
         max-height: 200px;
         overflow-y: scroll;
+        margin: 10px 0px;
+
+        &__group{
+            font-size: 0.8em;
+            label{
+                font-size: 1.5em;
+            }
+            &__info{
+                .group-info-label{
+                    margin: 5px;
+                    display: block;
+                }
+            }
+        }
+    }
+
+    button {
+        @include std-button;
+        margin: 0px 5px;
     }
 }

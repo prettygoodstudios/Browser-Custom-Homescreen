@@ -67,7 +67,7 @@ const FeedForm = (props) => {
                                 <label>{name}</label>
                                 <div className="feed-form__source-checkboxes__group__info">
                                     {description}
-                                    <span className="group-info-label">Country: {country}</span>
+                                    <span className="group-info-label">Country: {country.toUpperCase()}</span>
                                     <span className="group-info-label">Category: {category}</span>
                                 </div>
                             </div>
@@ -180,7 +180,7 @@ class SettingsModal extends Component{
                     <h3>Icons</h3>
                     <a onClick={this.toggleAddIcon}>Add a icon</a>
                     <IconForm url={addIconUrl} setUrl={this.setAddIconUrl} show={addIcon} setImage={this.setImage} image={addIconImg} save={this.addIcon} cancel={this.toggleAddIcon} submitText="Add"/>
-                    <FeedForm sources={sources} selectedSources={[]} name={""}/>
+                    <FeedForm sources={sources} selectedSources={[]} name={""} submitText="Add"/>
                     <ul className="icon-settings">
                         {
                             icons.map(({url, icon, editing}, i) => {

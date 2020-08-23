@@ -59,11 +59,7 @@
         flex-direction: row;
         justify-content: center;
         &__submit{
-            padding: 10px;
-            border-radius: 30px;
-            font-size: 1em;
-            background-color: $text-color;
-            color: $card-color;
+            @include std-button;
         }
     }
 }
