@@ -64,3 +64,16 @@
         margin: 0px 5px;
     }
 }
+
+.feed-settings {
+    &__item{
+        &__view{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        &__edit{
+            display: block;
+        }
+    }
+}
