@@ -35,28 +35,34 @@ async function getPolitics(){
     return headlines;
 }
 
+async function getFeed(feed){
+    const {sources, name, query, country} = feed;
+    const headlines = await newsProvider.getFeed("top-headlines", {country, query, sources: sources.map(s => s.id)}).then((feed) => {
+        return feed;
+    }).catch(error => {
+        console.log(error);
+    });
+    return headlines;
+}
 
-export const getStreams = () => {
+
+export const getStreams = (feeds) => {
     return async function(dispatch){
-        const headlines = await getHeadlines();
-        const wired = await getTechNews();
-        const politics = await getPolitics();
+        const payload = [];
+        for(let i = 0; i < feeds.length; i++){
+            const data = await getFeed(feeds[i]);
+            console.log(feeds[i]);
+            console.log(data);
+            payload.push({
+                title: feeds[i].name,
+                data
+            });
+        }
+        console.log(payload);
         dispatch({
             type: GET_STREAMS,
-            payload: [
-                {
-                    title: 'Top News Headlines',
-                    data: headlines
-                },{
-                    title: 'Tech News',
-                    data: wired
-                },
-                {
-                    title: 'Local News',
-                    data: politics
-                }
-            ]
-        })
+            payload
+        });
     }
 }
 
@@ -74,9 +80,13 @@ export const getSources = () => {
 }
 
 export const getFeeds = () => {
-    return{
-        type: GET_FEEDS,
-        payload: getFeedsFromDB()
+    return async function(dispatch){
+        const feeds = getFeedsFromDB();
+        dispatch({
+            type: GET_FEEDS,
+            payload: feeds
+        });
+        await dispatch(getStreams(feeds));
     }
 }
 

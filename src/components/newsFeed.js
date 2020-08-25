@@ -14,7 +14,7 @@ class NewsFeed extends Component {
     }
 
     async componentDidMount(){
-        await this.props.getStreams();
+        await this.props.getFeeds();
         this.setState({
             feeds: this.props.feeds
         });

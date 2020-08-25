@@ -53,13 +53,13 @@ const FeedForm = (props) => {
     return(
         <div className="feed-form">
             <input placeholder="Name" className="feed-form__input" value={feedName} onChange={e => updateField("feedName", e)}></input>
-            <input type="checkbox" className="feed-form__checkbox" id="feedFormQueryCheckbox" onChange={e => updateField("query", true, e)}/>
+            <input type="checkbox" className="feed-form__checkbox" id="feedFormQueryCheckbox" onChange={e => updateField("query", true, e)} checked={query !== false}/>
             <label htmlFor="feedFormQueryCheckbox">Filter articles by query string</label>
             {query !== false &&
                  <input placeholder="Query" className="feed-form__input" value={query} onChange={e => updateField("query", e)}></input>
             }
             <br />
-            <input type="checkbox" className="feed-form__checkbox" id="feedFormCountryCheckbox" onChange={e => updateField("country", true, e)}/>
+            <input type="checkbox" className="feed-form__checkbox" id="feedFormCountryCheckbox" onChange={e => updateField("country", true, e)} checked={country !== false}/>
             <label htmlFor="feedFormCountryCheckbox">Filter articles by country</label>
             {country !== false &&
                 <input placeholder="Country" className="feed-form__input" value={country} onChange={e => updateField("country", e)}/>
@@ -122,7 +122,6 @@ class SettingsModal extends Component{
 
     componentDidMount(){
         this.props.getSources();
-        this.props.getFeeds();
     }
 
     toggleAddIcon = () => {
