@@ -25,7 +25,7 @@ const IconForm = (props) => {
 }
 
 const FeedForm = (props) => {
-    const {sources, selectedSources, save, cancel, submitText, query, country, sortBy, date, feedName, updateField, toggleFeed, show, feedSearch} = props;
+    const {sources, selectedSources, save, cancel, submitText, query, country, sortBy, date, feedName, updateField, toggleFeed, show, feedSearch, topHeadlines} = props;
 
     if(!show){
         return <div></div>;
@@ -53,36 +53,40 @@ const FeedForm = (props) => {
     return(
         <div className="feed-form">
             <input placeholder="Name" className="feed-form__input" value={feedName} onChange={e => updateField("feedName", e)}></input>
-            <input type="checkbox" className="feed-form__checkbox" id="feedFormQueryCheckbox" onChange={e => updateField("query", true, e)} checked={query !== false}/>
-            <label htmlFor="feedFormQueryCheckbox">Filter articles by query string</label>
-            {query !== false &&
-                 <input placeholder="Query" className="feed-form__input" value={query} onChange={e => updateField("query", e)}></input>
+            <input type="checkbox" className="feed-form__checkbox" value={topHeadlines} onChange={e => updateField("topHeadlines", true, e, true)} checked={topHeadlines}/>
+            <label>Curate feed by selecting sources</label>
+            {!topHeadlines ?
+                <div>
+                    <input type="checkbox" className="feed-form__checkbox" id="feedFormQueryCheckbox" onChange={e => updateField("query", true, e)} checked={query !== false}/>
+                    <label htmlFor="feedFormQueryCheckbox">Filter articles by query string</label>
+                    <input placeholder="Query" className="feed-form__input" value={query} onChange={e => updateField("query", e)} style={{display: query !== false ? "block" : "none"}}></input>
+                </div>
+                :
+                <div>
+                    <input type="checkbox" className="feed-form__checkbox" id="feedFormCountryCheckbox" onChange={e => updateField("country", true, e)} checked={country !== false}/>
+                    <label htmlFor="feedFormCountryCheckbox">Filter articles by country</label>
+                    <input placeholder="Country" className="feed-form__input" value={country} onChange={e => updateField("country", e)} style={{display: country !== false ? "block" : "none"}}/>
+                    <h3>Sources</h3>
+                    <input placeholder="Search for Source" className="feed-form__input" value={feedSearch} onChange={e => updateField("feedSearch", e)}/>
+                    <div className="feed-form__source-checkboxes">      
+                        {   filteredFormSources.map((source, i) => {
+                                const {name, id, description, country, category, selected} = source;
+                                return (
+                                    <div key={i} className="feed-form__source-checkboxes__group">
+                                        <input type="checkbox" value={id} onChange={(e) => toggleFeed(e, source)} checked={selected}></input>
+                                        <label>{name}</label>
+                                        <div className="feed-form__source-checkboxes__group__info">
+                                            {description}
+                                            <span className="group-info-label">Country: {country.toUpperCase()}</span>
+                                            <span className="group-info-label">Category: {category}</span>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                </div>
             }
-            <br />
-            <input type="checkbox" className="feed-form__checkbox" id="feedFormCountryCheckbox" onChange={e => updateField("country", true, e)} checked={country !== false}/>
-            <label htmlFor="feedFormCountryCheckbox">Filter articles by country</label>
-            {country !== false &&
-                <input placeholder="Country" className="feed-form__input" value={country} onChange={e => updateField("country", e)}/>
-            }
-            <h3>Feeds</h3>
-            <input placeholder="Search for Feed" className="feed-form__input" value={feedSearch} onChange={e => updateField("feedSearch", e)}/>
-            <div className="feed-form__source-checkboxes">      
-                {   filteredFormSources.map((source, i) => {
-                        const {name, id, description, country, category, selected} = source;
-                        return (
-                            <div key={i} className="feed-form__source-checkboxes__group">
-                                <input type="checkbox" value={id} onChange={(e) => toggleFeed(e, source)} checked={selected}></input>
-                                <label>{name}</label>
-                                <div className="feed-form__source-checkboxes__group__info">
-                                    {description}
-                                    <span className="group-info-label">Country: {country.toUpperCase()}</span>
-                                    <span className="group-info-label">Category: {category}</span>
-                                </div>
-                            </div>
-                        )
-                    })
-                }
-            </div>
             <div className="feed-form__action-btns">
                 <button className="feed-form__action-btns__cancel" onClick={cancel}>Cancel</button>
                 <button className="feed-form__action-btns__submit" onClick={save}>{submitText}</button>
@@ -107,7 +111,8 @@ class SettingsModal extends Component{
                 query: false,
                 selectedSources: [],
                 show: false,
-                feedSearch: ""
+                feedSearch: "",
+                topHeadlines: false
             },
             editFeedForm: {
                 feedName: "",
@@ -115,7 +120,8 @@ class SettingsModal extends Component{
                 query: false,
                 selectedSources: [],
                 feedSearch: "",
-                index: -1
+                index: -1,
+                topHeadlines: false
             }
         }
     }
@@ -195,12 +201,14 @@ class SettingsModal extends Component{
         });
     }
 
-    updateNewFeedForm = (field, event, toggle = false) => {
+    updateNewFeedForm = (field, event, toggle = false, set = false) => {
         if(!toggle){
             const {value} = event.target;
             this.state.newFeedForm[field] = value;
-        }else{
+        }else if(!set){
             this.state.newFeedForm[field] = toggle.target.checked ? "" : false;
+        }else{
+            this.state.newFeedForm[field] = toggle.target.checked;
         }
         this.setState({
             newFeedForm: this.state.newFeedForm
@@ -234,12 +242,13 @@ class SettingsModal extends Component{
 
     saveNewFeed = () => {
         const {newFeedForm} = this.state;
-        const {feedName, selectedSources, country, query} = newFeedForm;
+        const {feedName, selectedSources, country, query, topHeadlines} = newFeedForm;
         const feed  = {
             name: feedName,
-            sources: selectedSources,
+            sources: !topHeadlines ? selectedSources : [],
             country,
-            query
+            query,
+            topHeadlines
         }
         this.props.addFeed(feed);
         this.toggleNewFeed();
@@ -253,6 +262,7 @@ class SettingsModal extends Component{
             feedObject['query'] = editFeed.query;
             feedObject['feedName'] = editFeed.name;
             feedObject['selectedSources'] = editFeed.sources;
+            feedObject['topHeadlines'] = editFeed.topHeadlines;
         }
 
         this.setState({
@@ -264,12 +274,14 @@ class SettingsModal extends Component{
         });
     }
 
-    updateEditFeedForm = (field, event, toggle = false) => {
+    updateEditFeedForm = (field, event, toggle = false, set = false) => {
         if(!toggle){
             const {value} = event.target;
             this.state.editFeedForm[field] = value;
-        }else{
+        }else if(!set){
             this.state.editFeedForm[field] = toggle.target.checked ? "" : false;
+        }else{
+            this.state.editFeedForm[field] = toggle.target.checked;
         }
         this.setState({
             editFeedForm: this.state.editFeedForm
@@ -294,12 +306,13 @@ class SettingsModal extends Component{
 
     saveEditFeed = () => {
         const {editFeedForm} = this.state;
-        const {feedName, selectedSources, country, query, index} = editFeedForm;
+        const {feedName, selectedSources, country, query, index, topHeadlines} = editFeedForm;
         const feed  = {
             name: feedName,
-            sources: selectedSources,
+            sources: !topHeadlines ? selectedSources : [],
             country,
-            query
+            query,
+            topHeadlines
         }
         this.props.editFeed(index, feed);
         this.toggleEditFeed();
@@ -348,14 +361,14 @@ class SettingsModal extends Component{
                                             <a onClick={() => this.props.deleteFeed(i)}>Delete</a>
                                         </div>
                                         <div className="feed-settings__item__edit">
-                                            <FeedForm show={editFeedForm.index === i} save={this.saveEditFeed} sources={sources} feedSearch={editFeedForm.feedSearch} cancel={this.toggleEditFeed} selectedSources={editFeedForm.selectedSources} submitText="Update" feedName={editFeedForm.feedName} country={editFeedForm.country} query={editFeedForm.query} updateField={this.updateEditFeedForm} toggleFeed={this.editFeedFormToggleFeed}/>
+                                            <FeedForm show={editFeedForm.index === i} topHeadlines={editFeedForm.topHeadlines} save={this.saveEditFeed} sources={sources} feedSearch={editFeedForm.feedSearch} cancel={this.toggleEditFeed} selectedSources={editFeedForm.selectedSources} submitText="Update" feedName={editFeedForm.feedName} country={editFeedForm.country} query={editFeedForm.query} updateField={this.updateEditFeedForm} toggleFeed={this.editFeedFormToggleFeed}/>
                                         </div>
                                     </div>
                                 )
                             })
                         }
                     </div>
-                    <FeedForm show={newFeedForm.show} save={this.saveNewFeed} sources={sources} feedSearch={newFeedForm.feedSearch} cancel={this.toggleNewFeed} selectedSources={newFeedForm.selectedSources} submitText="Add" feedName={newFeedForm.feedName} country={newFeedForm.country} query={newFeedForm.query} updateField={this.updateNewFeedForm} toggleFeed={this.newFeedFormToggleFeed}/>
+                    <FeedForm show={newFeedForm.show} save={this.saveNewFeed} sources={sources} topHeadlines={newFeedForm.topHeadlines} feedSearch={newFeedForm.feedSearch} cancel={this.toggleNewFeed} selectedSources={newFeedForm.selectedSources} submitText="Add" feedName={newFeedForm.feedName} country={newFeedForm.country} query={newFeedForm.query} updateField={this.updateNewFeedForm} toggleFeed={this.newFeedFormToggleFeed}/>
                 </Modal>
             </div>
         )

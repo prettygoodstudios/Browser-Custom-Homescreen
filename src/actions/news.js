@@ -36,8 +36,8 @@ async function getPolitics(){
 }
 
 async function getFeed(feed){
-    const {sources, name, query, country} = feed;
-    const headlines = await newsProvider.getFeed("top-headlines", {country, query, sources: sources.map(s => s.id)}).then((feed) => {
+    const {sources, query, country, topHeadlines} = feed;
+    const headlines = await newsProvider.getFeed(topHeadlines ? "top-headlines" : "everything", {country, query, sources: sources.map(s => s.id)}).then((feed) => {
         return feed;
     }).catch(error => {
         console.log(error);
