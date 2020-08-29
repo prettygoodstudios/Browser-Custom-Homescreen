@@ -18,7 +18,6 @@ export default function(state = INIT_STATE, action){
             }
         case ADD_ICONS:
             action.payload.map((icon, i) => {
-                console.log(icon)
                 return {
                     ...icon,
                     id: state.icons.length+i

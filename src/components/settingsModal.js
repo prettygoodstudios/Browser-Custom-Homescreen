@@ -322,7 +322,7 @@ class SettingsModal extends Component{
             <div>
                 <Modal title={"Settings"} submitText={"Save"} submit={this.props.toggleSettingsModal} close={this.props.toggleSettingsModal} show={this.props.show}>
                     <h3>Icons</h3>
-                    <a onClick={this.toggleAddIcon}>Add a icon</a>
+                    {!addIcon && <a onClick={this.toggleAddIcon}>Add a icon</a>}
                     <IconForm url={addIconUrl} setUrl={this.setAddIconUrl} show={addIcon} setImage={this.setImage} image={addIconImg} save={this.addIcon} cancel={this.toggleAddIcon} submitText="Add"/>
                     <ul className="icon-settings">
                         {
@@ -344,7 +344,8 @@ class SettingsModal extends Component{
                         }
                     </ul>
                     <h3>Feeds</h3>
-                    <a onClick={this.toggleNewFeed}>Add a Feed</a>
+                    { !newFeedForm.show && <a onClick={this.toggleNewFeed}>Add a Feed</a>}
+                    <FeedForm show={newFeedForm.show} save={this.saveNewFeed} sources={sources} topHeadlines={newFeedForm.topHeadlines} feedSearch={newFeedForm.feedSearch} cancel={this.toggleNewFeed} selectedSources={newFeedForm.selectedSources} submitText="Add" feedName={newFeedForm.feedName} country={newFeedForm.country} query={newFeedForm.query} updateField={this.updateNewFeedForm} toggleFeed={this.newFeedFormToggleFeed}/>
                     <div className="feed-settings">
                         {   feeds.map((feed, i) => {
                                 const {name} = feed;
@@ -365,7 +366,6 @@ class SettingsModal extends Component{
                             })
                         }
                     </div>
-                    <FeedForm show={newFeedForm.show} save={this.saveNewFeed} sources={sources} topHeadlines={newFeedForm.topHeadlines} feedSearch={newFeedForm.feedSearch} cancel={this.toggleNewFeed} selectedSources={newFeedForm.selectedSources} submitText="Add" feedName={newFeedForm.feedName} country={newFeedForm.country} query={newFeedForm.query} updateField={this.updateNewFeedForm} toggleFeed={this.newFeedFormToggleFeed}/>
                 </Modal>
             </div>
         )

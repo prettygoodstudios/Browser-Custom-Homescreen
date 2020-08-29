@@ -28,6 +28,10 @@
         height: 50px;
         display: block;
     }
+
+    a{
+        margin: 0px 5px;
+    }
 }
 
 .feed-form{
@@ -61,7 +65,7 @@
 
     button {
         @include std-button;
-        margin: 0px 5px;
+        margin: 5px 5px;
     }
 }
 
