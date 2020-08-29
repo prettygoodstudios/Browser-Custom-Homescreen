@@ -1,4 +1,4 @@
-import { GET_STREAMS, GET_SOURCES, GET_FEEDS, ADD_FEED, DELETE_FEED, EDIT_FEED } from "../actions/types";
+import { GET_STREAMS, GET_SOURCES, GET_FEEDS, ADD_FEED, DELETE_FEED, EDIT_FEED, SHOW_MORE } from "../actions/types";
 import { updateFeedDB } from "../helpers/db";
 
 const INIT_STATE = {
@@ -48,6 +48,13 @@ export default function(state = INIT_STATE, action){
             return{
                 ...state,
                 feeds: feedRef
+            }
+        case SHOW_MORE:
+            const showStreams = Array.from(state.streams);
+            showStreams[action.payload].showMore = true;
+            return{
+                ...state,
+                streams: showStreams
             }
         default:
             return{

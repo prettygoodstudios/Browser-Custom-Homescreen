@@ -9,7 +9,7 @@ class NewsFeed extends Component {
     constructor(){
         super();
         this.state = {
-            showMore: []
+
         }
     }
 
@@ -18,11 +18,7 @@ class NewsFeed extends Component {
     }
 
     viewMoreArticles = (index) => {
-        const myFeeds = this.state.showMore;
-        myFeeds.push(index);
-        this.setState({
-            showMore: myFeeds
-        });
+        this.props.showMore(index);
     }
 
     render(){
@@ -31,8 +27,7 @@ class NewsFeed extends Component {
                 <hr/>
                 <div className="news-wrapper">
                     {   this.props.feeds.map((f, fi) => {
-                        const {title, data} = f;
-                        const showMore = this.state.showMore.indexOf(fi) != -1; 
+                        const {title, data, showMore} = f;
                         return(
                             <div className="news-wrapper__feed-wrapper" key={fi}>
                                 <h3>{title}</h3>

@@ -1,4 +1,4 @@
-import {GET_STREAMS, GET_SOURCES, GET_FEEDS, ADD_FEED, DELETE_FEED, EDIT_FEED} from "./types";
+import {GET_STREAMS, GET_SOURCES, GET_FEEDS, ADD_FEED, DELETE_FEED, EDIT_FEED, SHOW_MORE} from "./types";
 import { API_KEY } from "../../config";
 
 import NewsApiProvider from "../news/NewsApiProvider";
@@ -55,7 +55,8 @@ export const getStreams = (feeds) => {
             console.log(data);
             payload.push({
                 title: feeds[i].name,
-                data
+                data,
+                showMore: false
             });
         }
         console.log(payload);
@@ -63,6 +64,13 @@ export const getStreams = (feeds) => {
             type: GET_STREAMS,
             payload
         });
+    }
+}
+
+export const showMore = (id) => {
+    return {
+        type: SHOW_MORE,
+        payload: id
     }
 }
 
