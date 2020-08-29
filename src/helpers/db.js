@@ -56,7 +56,13 @@ export const getItemsFromDB = () => {
 }
 
 export const updateIconDB = (icons) => {
-    localStorage.setItem(ICON_DB_NAME, JSON.stringify(icons));
+    return new Promise((resolve, reject) => {
+        try {
+            localStorage.setItem(ICON_DB_NAME, JSON.stringify(icons));
+        }catch(exception){
+            reject("Your image is too large, please provide a smaller image.");
+        }
+    });
 } 
 
 export const getFeedsFromDB = () => {

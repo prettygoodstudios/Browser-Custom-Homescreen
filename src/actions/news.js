@@ -1,5 +1,4 @@
 import {GET_STREAMS, GET_SOURCES, GET_FEEDS, ADD_FEED, DELETE_FEED, EDIT_FEED, SHOW_MORE} from "./types";
-import { API_KEY } from "../../config";
 
 import NewsApiProvider from "../news/NewsApiProvider";
 import { getFeedsFromDB } from "../helpers/db";
@@ -23,8 +22,6 @@ export const getStreams = (feeds) => {
         const payload = [];
         for(let i = 0; i < feeds.length; i++){
             const data = await getFeed(feeds[i]);
-            console.log(feeds[i]);
-            console.log(data);
             payload.push({
                 title: feeds[i].name,
                 data,

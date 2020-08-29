@@ -320,7 +320,7 @@ class SettingsModal extends Component{
         const {addIcon, addIconUrl, addIconImg, editIconUrl, editIconImg, newFeedForm, editFeedForm} = this.state;
         return(
             <div>
-                <Modal title={"Settings"} submitText={"Save"} submit={this.props.toggleSettingsModal} close={this.props.toggleSettingsModal} show={this.props.show}>
+                <Modal title={"Settings"} close={this.props.toggleSettingsModal} show={this.props.show}>
                     <h3>Icons</h3>
                     {!addIcon && <a onClick={this.toggleAddIcon}>Add a icon</a>}
                     <IconForm url={addIconUrl} setUrl={this.setAddIconUrl} show={addIcon} setImage={this.setImage} image={addIconImg} save={this.addIcon} cancel={this.toggleAddIcon} submitText="Add"/>

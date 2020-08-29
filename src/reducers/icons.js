@@ -23,7 +23,10 @@ export default function(state = INIT_STATE, action){
                     id: state.icons.length+i
                 }
             })
-            updateIconDB([...state.icons, ...action.payload]); 
+            updateIconDB([...state.icons, ...action.payload]).catch((error) => {
+                alert(error);
+                throw new Error(error);
+            }); 
             return{
                 ...state,
                 icons: [...state.icons, ...action.payload]
@@ -36,14 +39,20 @@ export default function(state = INIT_STATE, action){
                 url, 
                 icon
             }
-            updateIconDB(tmpIcons);
+            updateIconDB(tmpIcons).catch((error) => {
+                alert(error);
+                throw new Error(error);
+            });
             return {
                 ...state,
                 icons: tmpIcons
             }
         case DELETE_ICON:
             const deleteIcons = state.icons.filter((v, i) => i != action.payload)
-            updateIconDB(deleteIcons);
+            updateIconDB(deleteIcons).catch((error) => {
+                alert(error);
+                throw new Error(error);
+            });
             return {
                 ...state,
                 icons: deleteIcons
