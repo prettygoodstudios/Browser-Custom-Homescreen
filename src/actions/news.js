@@ -7,34 +7,6 @@ import { getFeedsFromDB } from "../helpers/db";
 //A NewsProvider Object
 const newsProvider = new NewsApiProvider();
 
-async function getHeadlines(){
-    const headlines = await newsProvider.getFeed("top-headlines", {country: "us"}).then((feed) => {
-        return feed;
-    }).catch((error) => {
-        console.log(error);
-    });
-    return headlines;
-}
-
-async function getTechNews(){
-    const headlines = await newsProvider.getFeed("top-headlines", {sortBy: "popularity", sources: "wired,ars-technica,the-verge,engadget,techcrunch"}).then((feed) => {
-        return feed;
-    }).catch((error) => {
-        console.log(error);
-    });
-    return headlines;
-}
-
-async function getPolitics(){
-    const date = `20${new Date().getYear() - 100}-${new Date().getMonth() + 1 > 9 ? '' : '0'}${new Date().getMonth() + 1}-${new Date().getDate() > 9 ? '' : '0'}${new Date().getDate()}`;
-    const headlines = await newsProvider.getFeed("everything", {query: "utah", date}).then((feed) => {
-        return feed;
-    }).catch((error) => {
-        console.log(error);
-    });
-    return headlines;
-}
-
 async function getFeed(feed){
     const {sources, query, country, topHeadlines} = feed;
     const headlines = await newsProvider.getFeed(topHeadlines ? "top-headlines" : "everything", {country, query, sources: sources.map(s => s.id)}).then((feed) => {
