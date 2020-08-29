@@ -63,9 +63,6 @@ const FeedForm = (props) => {
                 </div>
                 :
                 <div>
-                    <input type="checkbox" className="feed-form__checkbox" id="feedFormCountryCheckbox" onChange={e => updateField("country", true, e)} checked={country !== false}/>
-                    <label htmlFor="feedFormCountryCheckbox">Filter articles by country</label>
-                    <input placeholder="Country" className="feed-form__input" value={country} onChange={e => updateField("country", e)} style={{display: country !== false ? "block" : "none"}}/>
                     <h3>Sources</h3>
                     <input placeholder="Search for Source" className="feed-form__input" value={feedSearch} onChange={e => updateField("feedSearch", e)}/>
                     <div className="feed-form__source-checkboxes">      

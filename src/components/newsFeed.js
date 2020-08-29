@@ -9,22 +9,19 @@ class NewsFeed extends Component {
     constructor(){
         super();
         this.state = {
-            feeds: []
+            showMore: []
         }
     }
 
     async componentDidMount(){
         await this.props.getFeeds();
-        this.setState({
-            feeds: this.props.feeds
-        });
     }
 
     viewMoreArticles = (index) => {
-        const myFeeds = this.state.feeds;
-        myFeeds[index].showX = 6;
+        const myFeeds = this.state.showMore;
+        myFeeds.push(index);
         this.setState({
-            feeds: myFeeds
+            showMore: myFeeds
         });
     }
 
@@ -33,15 +30,16 @@ class NewsFeed extends Component {
             <div>
                 <hr/>
                 <div className="news-wrapper">
-                    {   this.state.feeds.map((f, fi) => {
+                    {   this.props.feeds.map((f, fi) => {
                         const {title, data} = f;
+                        const showMore = this.state.showMore.indexOf(fi) != -1; 
                         return(
                             <div className="news-wrapper__feed-wrapper" key={fi}>
                                 <h3>{title}</h3>
                                 {   (data && data.articles && data.articles.length > 0) ?
                                     <ul>
                                         {
-                                            data.articles && data.articles.slice(0, (f.showX ? f.showX : 3)).map((a, i) => {
+                                            data.articles && data.articles.slice(0, (showMore ? 6 : 3)).map((a, i) => {
                                                 const {author, url, content, urlToImage} = a;
                                                 const articleTitle = a.title;
                                                 return(
@@ -57,7 +55,7 @@ class NewsFeed extends Component {
                                                 )
                                             })
                                         }
-                                        {   f.showX != 6 &&
+                                        {   !showMore &&
                                             <li className="view-more">
                                                 <div>
                                                     <button onClick={() => this.viewMoreArticles(fi)}>

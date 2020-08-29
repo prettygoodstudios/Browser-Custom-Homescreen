@@ -91,25 +91,34 @@ export const getFeeds = () => {
 }
 
 export const addFeed = (feed) => {
-    return{
-        type: ADD_FEED,
-        payload: feed
+    return async function(dispatch){
+        dispatch({
+            type: ADD_FEED,
+            payload: feed
+        });
+        dispatch(getFeeds());
     }
 }
 
 export const deleteFeed = (id) => {
-    return{
-        type: DELETE_FEED,
-        payload: id
+    return async function(dispatch){
+        dispatch({
+            type: DELETE_FEED,
+            payload: id
+        });
+        dispatch(getFeeds());
     }
 }
 
 export const editFeed = (id, feed) => {
-    return{
-        type: EDIT_FEED,
-        payload: {
-            id,
-            feed
-        }
+    return async function(dispatch){
+        dispatch({
+            type: EDIT_FEED,
+            payload: {
+                id,
+                feed
+            }
+        });
+        dispatch(getFeeds());
     }
 }
