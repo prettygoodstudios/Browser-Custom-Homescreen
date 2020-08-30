@@ -2,13 +2,13 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 
 
-import {getItemsFromDB} from "../helpers/db"; 
+import {getIconsFromDB} from "../helpers/db"; 
 import * as actions from "../actions";
 
 class Icons extends Component {
 
     componentDidMount(){
-        this.props.setIcons(getItemsFromDB());
+        this.props.setIcons(getIconsFromDB());
     }
 
     render(){

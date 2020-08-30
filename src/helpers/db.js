@@ -46,7 +46,7 @@ export const initializeDB = () => {
     }
 }
 
-export const getItemsFromDB = () => {
+export const getIconsFromDB = () => {
     initializeDB();
     const icons = JSON.parse(localStorage.getItem(ICON_DB_NAME))
     if (!icons){
@@ -60,7 +60,7 @@ export const updateIconDB = (icons) => {
         try {
             localStorage.setItem(ICON_DB_NAME, JSON.stringify(icons));
         }catch(exception){
-            reject("Your image is too large, please provide a smaller image.");
+            reject("Your image is too large, please provide a smaller image.");s
         }
     });
 } 

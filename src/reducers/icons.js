@@ -1,8 +1,8 @@
 import { GET_ICONS, SET_ICONS, ADD_ICONS, UPDATE_ICON, EDIT_ICON, CANCEL_EDIT_ICON, DELETE_ICON } from "../actions/types";
-import {updateIconDB, getItemsFromDB} from "../helpers/db";
+import {updateIconDB, getIconsFromDB} from "../helpers/db";
 
 const INIT_STATE = {
-    icons: getItemsFromDB()
+    icons: getIconsFromDB()
 }
 
 export default function(state = INIT_STATE, action){
