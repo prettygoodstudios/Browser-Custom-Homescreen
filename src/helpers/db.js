@@ -8,6 +8,8 @@ import driveIcon from "../images/drive.png";
 const ICON_DB_NAME = "BROWSER_HOME_SCREEN_ICONS";
 const FEED_DB_NAME = "BROWSER_HOME_SCREEN_FEEDS";
 
+const LOCAL_STORAGE_ERROR = "Local storage could not be updated, either you have exceeded the maximum data limit or you are using igcognito or private mode on your browser. This will result in your modifications not being saved."
+
 const INITIAL_FEED_DB_STATE = [];
 
 const INITIAL_ICON_DB_STATE = [
@@ -59,8 +61,9 @@ export const updateIconDB = (icons) => {
     return new Promise((resolve, reject) => {
         try {
             localStorage.setItem(ICON_DB_NAME, JSON.stringify(icons));
+            resolve();
         }catch(exception){
-            reject("Your image is too large, please provide a smaller image.");s
+            reject(LOCAL_STORAGE_ERROR);
         }
     });
 } 
@@ -75,5 +78,12 @@ export const getFeedsFromDB = () => {
 }
 
 export const updateFeedDB = (feeds) => {
-    localStorage.setItem(FEED_DB_NAME, JSON.stringify(feeds));
+    return new Promise((resolve, reject) => {
+        try{
+            localStorage.setItem(FEED_DB_NAME, JSON.stringify(feeds));
+            resolve();
+        }catch{
+            reject(LOCAL_STORAGE_ERROR);
+        }
+    });
 }

@@ -18,8 +18,8 @@ import {updateFeedDB, updateIconDB} from "../helpers/db";
 const store = createStore(reducers, compose(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
 
 store.subscribe(() => {
-    updateIconDB(store.getState().icons.icons);
-    updateFeedDB(store.getState().news.feeds);
+    updateIconDB(store.getState().icons.icons).catch(error => alert(error));
+    updateFeedDB(store.getState().news.feeds).catch(error => alert(error));
 });
 
 export default class App extends Component {
