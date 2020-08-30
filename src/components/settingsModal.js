@@ -242,7 +242,7 @@ class SettingsModal extends Component{
         const {feedName, selectedSources, country, query, topHeadlines} = newFeedForm;
         const feed  = {
             name: feedName,
-            sources: !topHeadlines ? selectedSources : [],
+            sources: topHeadlines ? selectedSources : [],
             country,
             query,
             topHeadlines
@@ -306,7 +306,7 @@ class SettingsModal extends Component{
         const {feedName, selectedSources, country, query, index, topHeadlines} = editFeedForm;
         const feed  = {
             name: feedName,
-            sources: !topHeadlines ? selectedSources : [],
+            sources: topHeadlines ? selectedSources : [],
             country,
             query,
             topHeadlines
